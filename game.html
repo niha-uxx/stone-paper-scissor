@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Anime Kids Play Stone Paper Scissors</title>
+	<link href="https://fonts.googleapis.com/css2?family=Leckerli+One&display=swap" rel="stylesheet">
+	<style>
+		body {
+			min-height: 100vh;
+			margin: 0;
+			font-family: 'Segoe UI', Arial, sans-serif;
+			background: url('bg.webp') no-repeat center center fixed;
+			background-size: cover;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+		.scene-title {
+			font-family: 'Leckerli One', cursive;
+			font-size: 2.5rem;
+			color:#333;
+            			text-shadow: 2px 2px 8px #fff7, 0 2px 8px #ff6a00;
+			margin-bottom: 10px;
+			margin-top: 30px;
+			text-align: center;
+            z-index: 2;
+		}
+		.anime-scene {
+			display: flex;
+			gap: 48px;
+			justify-content: center;
+			align-items: flex-end;
+			margin-bottom: 40px;
+		}
+		.anime-kid {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			background: rgba(255,255,255,0.85);
+			border-radius: 20px;
+			box-shadow: 0 2px 16px #3332;
+			padding: 18px 18px 10px 18px;
+			min-width: 140px;
+			position: relative;
+		}
+		.anime-kid img {
+			width: 90px;
+			height: 90px;
+			border-radius: 50%;
+			object-fit: cover;
+			margin-bottom: 10px;
+			box-shadow: 0 2px 12px #3332;
+			border: 3px solid #fff;
+			background: #fff;
+		}
+		.gesture {
+			font-size: 2.5rem;
+			margin-bottom: 6px;
+			min-height: 2.5rem;
+			transition: all 0.2s;
+		}
+		.speech-bubble {
+			position: absolute;
+			top: -40px;
+			left: 50%;
+			transform: translateX(-50%);
+			background: #fff;
+			color: #333;
+			padding: 8px 18px;
+			border-radius: 20px;
+			box-shadow: 0 2px 8px #3332;
+			font-size: 1.1rem;
+			font-family: 'Leckerli One', cursive;
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.2s;
+		}
+		.speech-bubble.show {
+			opacity: 1;
+		}
+		.kid-label {
+			font-family: 'Leckerli One', cursive;
+			font-size: 1.1rem;
+			color: #2193b0;
+			margin-top: 2px;
+		}
+		.play-btn {
+			display: block;
+			margin: 0 auto 30px auto;
+			padding: 16px 48px;
+			font-family: 'Leckerli One', cursive;
+			font-size: 1.5rem;
+			color: #fff;
+			background: linear-gradient(90deg, #ee0979, #ff6a00, #00c3ff, #f7971e);
+			border: none;
+			border-radius: 40px;
+			box-shadow: 0 4px 16px #3333;
+			text-decoration: none;
+			transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+			cursor: pointer;
+			text-shadow: 2px 2px 8px #333a;
+			letter-spacing: 1px;
+		}
+		.play-btn:hover {
+			transform: scale(1.08) translateY(-4px);
+			box-shadow: 0 8px 32px #3335;
+			background: linear-gradient(90deg, #00c3ff, #f7971e, #ee0979, #ff6a00);
+		}
+		@media (max-width: 700px) {
+			.anime-scene { gap: 12px; }
+			.anime-kid { min-width: 90px; padding: 10px 4px 6px 4px; }
+			.anime-kid img { width: 60px; height: 60px; }
+			.gesture { font-size: 1.5rem; }
+		}
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:white;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.8; /* Adjust this value for more/less opacity */
+        }
+	</style>
+</head>
+<body>
+	<div class="overlay"></div>
+	<div class="scene-title" style="top:0;left:0;right:0;z-index:10;padding-top:18px;padding-bottom:10px;">Stone Paper Scissors: You vs Computer</div>
+	<div style="height:70px;"></div>
+	<div class="anime-scene">
+		<div class="anime-kid" id="user-kid">
+			<img src="cat.gif" alt="User">
+			<div class="gesture" id="user-gesture">❓</div>
+			<div class="speech-bubble" id="user-bubble"></div>
+			<div class="kid-label">You</div>
+		</div>
+		<div class="anime-kid" id="comp-kid">
+			<img src="computer.gif" alt="Computer">
+			<div class="gesture" id="comp-gesture">❓</div>
+			<div class="speech-bubble" id="comp-bubble"></div>
+			<div class="kid-label">Computer</div>
+		</div>
+	</div>
+	<div style="text-align:center; margin-bottom:30px;">
+		<button class="play-btn" onclick="play('Rock')">🗿 Rock</button>
+		<button class="play-btn" onclick="play('Paper')">📄 Paper</button>
+		<button class="play-btn" onclick="play('Scissors')">✂️ Scissors</button>
+	</div>
+	<div style="text-align:center; font-size:2.1rem; margin-bottom:20px;">
+		<span id="result-msg">Choose your move!</span>
+	</div>
+    <img id="result-gif" src="" alt="Result Gif" style="display:none; width:60px; height:60px;z-index:20;">
+	<div class="score-card">
+		<div class="score-title">Score Card</div
+		<div class="score-values"><span id="score">0 - 0</span></div>
+	</div>
+	<style>
+		.score-card {
+			margin: 0 auto 24px auto;
+			background: rgba(255,255,255,0.92);
+			border-radius: 18px;
+			box-shadow: 0 2px 12px #3332;
+			max-width: 260px;
+			padding: 18px 0 10px 0;
+			text-align: center;
+		}
+		.score-title {
+			font-family: 'bold', cursive;
+			font-size: 1.3rem;
+			color: darkred;
+			margin-bottom: 6px;
+			letter-spacing: 1px;
+		}
+		.score-values {
+			font-size: 1.5rem;
+			color: black;
+			font-weight: bold;
+		}
+	</style>
+	<script>
+		const gestures = [
+			{icon: '🗿', text: 'Rock'},
+			{icon: '📄', text: 'Paper'},
+			{icon: '✂️', text: 'Scissors'}
+		];
+		let playerScore = 0;
+		let computerScore = 0;
+		function play(playerChoice) {
+			// Animation: cycle both hands
+			const userGesture = document.getElementById('user-gesture');
+			const compGesture = document.getElementById('comp-gesture');
+			const userBubble = document.getElementById('user-bubble');
+			const compBubble = document.getElementById('comp-bubble');
+			const resultMsg = document.getElementById('result-msg');
+			const scoreSpan = document.getElementById('score');
+			const resultGif = document.getElementById('result-gif');
+			userBubble.classList.remove('show');
+			compBubble.classList.remove('show');
+			resultGif.style.display = 'none';
+			let count = 0;
+			let interval = setInterval(() => {
+				userGesture.textContent = gestures[count%3].icon;
+				compGesture.textContent = gestures[(count+1)%3].icon;
+				count++;
+				if(count > 8) {
+					clearInterval(interval);
+					// Set final gestures
+					const userIdx = gestures.findIndex(g => g.text === playerChoice);
+					const compIdx = Math.floor(Math.random()*3);
+					userGesture.textContent = gestures[userIdx].icon;
+					compGesture.textContent = gestures[compIdx].icon;
+					userBubble.textContent = gestures[userIdx].text;
+					compBubble.textContent = gestures[compIdx].text;
+					userBubble.classList.add('show');
+					compBubble.classList.add('show');
+					// Decide result
+					let result = '';
+					let gif = '';
+					if(userIdx === compIdx) {
+						result = "It's a Draw!";
+						resultGif.style.display = 'none';
+					}
+					else if(
+						(userIdx === 0 && compIdx === 2) ||
+						(userIdx === 1 && compIdx === 0) ||
+						(userIdx === 2 && compIdx === 1)
+					) {
+						result = "You Win!";
+						playerScore++;
+						gif = 'partying face.gif';
+					} else {
+						result = "You failed!";
+						computerScore++;
+						gif = 'sad.gif';
+					}
+					resultMsg.textContent = result;
+					scoreSpan.textContent = `${playerScore} - ${computerScore}`;
+					if(gif) {
+						resultGif.src = gif;
+						resultGif.style.display = 'block';
+						resultGif.style.animation = 'pop 0.5s';
+						setTimeout(()=>{resultGif.style.animation='';},500);
+					}
+				}
+			}, 100);
+		}
+		// Pop animation
+		const style = document.createElement('style');
+		style.innerHTML = `@keyframes pop {0%{transform:scale(0);} 70%{transform:scale(1.2);} 100%{transform:scale(1);}}`;
+		document.head.appendChild(style);
+	</script>
+</body>
+</html>
+
+	

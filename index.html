@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>rock paper scissors</title>
+	<!-- Google Fonts: Leckerli One -->
+	<link href="https://fonts.googleapis.com/css2?family=Leckerli+One&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="index.css">
+	<style>
+		body {
+			background: lightblack;
+			min-height: 100vh;
+			margin: 0;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			position: relative;
+			overflow-x: hidden;
+		}
+		body::before {
+			content: "";
+			position: fixed;
+			top: 0; left: 0; right: 0; bottom: 0;
+			background: url('Rock.jpg') no-repeat center center fixed;
+			background-size: cover;
+			opacity: 0.5; /* Adjust this value for more/less opacity */
+			z-index: -1;
+			pointer-events: none;
+		}
+		
+		
+		.start-btn {
+			display: inline-block;
+			margin: 48px auto 0 auto;
+			padding: 18px 48px;
+			font-family: 'Leckerli One', cursive;
+			font-size: 2rem;
+			color: #fff;
+			background: linear-gradient(90deg, #ee0979, #ff6a00, #00c3ff, #f7971e);
+			border: none;
+			border-radius: 40px;
+			box-shadow: 0 4px 16px #3333;
+			text-decoration: none;
+			transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+			cursor: pointer;
+			text-shadow: 2px 2px 8px #333a;
+			letter-spacing: 1px;
+		}
+		.start-btn:hover {
+			transform: scale(1.08) translateY(-4px);
+			box-shadow: 0 8px 32px #3335;
+			background: linear-gradient(90deg, #00c3ff, #f7971e, #ee0979, #ff6a00);
+        
+        }
+        
+	</style>
+</head>
+<body>
+    <div class="gif-row"
+       <img src="rock.gif" alt="rock" class="gif-img"style="width:200px;height: 200px;">
+       <img src="Paper.gif" alt="Paper" class="gif-img"style="width:200px;height: 200px;">
+       <img src="scissor.gif" alt="Scissors" class="gif-img"style="width:200px;height: 200px;">
+		</div>
+	</div>
+    <a href="game.html">
+		<button  class="start-btn" id="startGameBtn">Start Game</button>
+
+    </a>
+    
+</body>
+</html>
